@@ -1,50 +1,40 @@
 <template>
     <div class="container">
-        <h1>{{nome}}</h1>
-        <form action="">                      
-                <div class="form-group row ">
-                    <label for="" class="col-sm-3 col-form-label" >Escolha o Pokemon:</label>
-                    <div class="col-sm-5">
-                        <select name="listPoke" id="listPoke" class="form-control col-sm-7 opt" v-model="pokeList" >
-                            <option v-for="pokemon in pokemons" :value='pokemon.url' :key="pokemon.name"  ><span>{{ pokemon.name }}</span></option>
-                        </select>
-                    </div>
-                    <div class="col-sm-4">
-                        <button class="btn btn-primary" type="submit" v-on:click.prevent="addDados">Visualizar dados</button>
-                    </div> 
-                </div>                
-        </form>
-        <hr>            
-        <div class="content tb">
-            <h3 >Dados do Pokemon</h3>            
-            <table class="table table-responsive ">           
-                <tr>
-                    <td><b>Nome:</b> {{pokeDados.name}}</td>
-                    <td rowspan="9" class="td-pok"><h3>Pokemon:</h3><img :src="image.front_default" :alt="pokeDados.name" :title="pokeDados.name" /></td>
-                </tr>
-                <tr><td><b>Altura:</b> {{pokeDados.height}}</td></tr>            
-                <tr><td><b>Peso:</b> {{pokeDados.weight}}</td></tr>
-                <tr><td><b>Velocidade:</b>{{speed}}</td></tr>
-                <tr><td><b>Defesa:</b> {{defense}}</td></tr>
-                <tr><td><b>Defesa Especial:</b> {{specialDefense}}</td></tr>
-                <tr><td><b>Ataque:</b>{{attack}}</td></tr>
-                <tr><td><b>Ataque Especial:</b> {{specialAttack}}</td></tr>
-                <tr><td><b>HP:</b> {{hp}}</td></tr>
-                <tr></tr>            
-            </table>           
+         <h1>{{nome}}</h1>
+        <SearchPokemons v-on:select="addDados"></SearchPokemons>
+        <hr>
+        <div class="content">
+            <h3 >Dados do Pokemon</h3>
+            <div class="info">
+                <p><b>Nome:</b> {{pokeDados.name}}</p>
+                <p><b>Altura:</b> {{pokeDados.height}}</p>
+                <p><b>Peso:</b> {{pokeDados.weight}}</p>
+                <p><b>Velocidade:</b>{{speed}}</p>
+                <p><b>Defesa:</b> {{defense}}</p>
+                <p><b>Defesa Especial:</b> {{specialDefense}}</p>
+                <p><b>Ataque:</b>{{attack}}</p>
+                <p><b>Ataque Especial:</b> {{specialAttack}}</p>
+                <p><b>HP:</b> {{hp.base_stat}}</p> 
+            </div>
+            <div class="img-pok">
+                <h3>Imagem Pokemon</h3>
+                <img :src="image.front_default" :alt="pokeDados.name" :title="pokeDados.name" />                    
+            </div>          
         </div>
     </div>
 </template>
 <script>
+import SearchPokemons from './SearchPokemons'
 import axios from 'axios'
-export default { 
+export default {
+    components:{
+        SearchPokemons
+    },
+
     data(){
-        return {
-            nome: 'Lista de Pokemons',    
-            pokemons:null,
-            pokeDados:"",
-            pokeList:"",
-            
+        return {         
+            pokeDados:'',
+            nome: 'Lista de Pokemons', 
             hp:'',
             attack:'',
             defense:'',
@@ -52,40 +42,68 @@ export default {
             specialDefense:'',
             speed:'',
             image:''
-        } 
+        }  
     },
-    mounted(){   
-        this.getTodos();   
-    },
-    methods: {
-        // Pega a URL para listar os pokemons
-        getTodos(){
-            axios
-            .get("http://localhost:8000/api/listar/")
-            .then( response => (this.pokemons = response.data))       
-        },        
+    methods: {    
         //Exibe o array na variavel pokeDados para ser exibida no campos de informações do pokemon
-        addDados(){
-            axios.get(this.pokeList).then(response => {[
-                this.pokeDados = response.data,
-                this.hp=response.data.stats[0].base_stat,
+        addDados(selecao){
+            axios.get(selecao.selectPok).then(response => {[
+                this.pokeDados = response.data,                
+                this.hp=response.data.stats[0],
                 this.attack=response.data.stats[1].base_stat,
                 this.defense=response.data.stats[2].base_stat,
                 this.specialAttack=response.data.stats[3].base_stat,
                 this.specialDefense=response.data.stats[4].base_stat,
                 this.speed=response.data.stats[5].base_stat,
                 //exibe imagem
-                this.image=response.data.sprites
+                this.image=response.data.sprites,
+
             ]});           
         }
-    }
+    },    
 }
 </script>
 
 <style>
-    .td-pok{text-align: center;}
-    .td-pok img{width: 200px;}
-    .content{width: 70%; margin: 0 auto;font-size: 1.2em;padding: 10px;}
-    .opt{font-size: 1.2em;}
-    .btn{border: 0;}
+body{
+    background-color: #fefefe;
+}
+.container{
+    width:60%; 
+}
+.content{
+    width: 100%;
+    float: left;
+    padding: 10px;
+    border-radius: 8px;
+   box-shadow: 0 5px 5px 5px rgba(0, 0, 0, 0.2);
+   background-color: white;
+}
+.info{
+    width:50%;
+    float: left;
+    font-size: 1.2em;
+}
+.img-pok{
+    width: 50%;
+    float: right;
+}
+.img-pok img{
+    width: 200px;
+}
+@media only screen and (max-width: 920px){
+transition: all 0.3s;
+    .img-pok{
+        width: 100%;
+        text-align: center;
+    }
+    .info{
+        width:100%;
+        font-size: 1.2em;
+        text-align: center;
+    }
+    .content h3{
+        text-align: center;
+    } 
+}
 </style>
