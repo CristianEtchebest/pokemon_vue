@@ -10,25 +10,28 @@
                         </select>
                     </div>
                     <div class="col-sm-4">
-                        <button class="btn btn-primary" type="submit"   v-on:click.prevent="addDados">Ver daddos</button>
+                        <button class="btn btn-primary" type="submit" v-on:click.prevent="addDados">Ver daddos</button>
                     </div> 
                 </div>                
         </form>
         <hr>            
-        <div class="content ">
-            <h3 >Dados do Pokemon</h3>
-            <ul class="list-group">
-                <li class="list-group-item"><b>Nome:</b> {{pokeDados.name}}</li>
-                <li class="list-group-item"><b>NAltura:</b> {{pokeDados.height}}</li>
-                <li class="list-group-item"><b>Peso:</b> {{pokeDados.weight}}</li>
-                <li class="list-group-item"><b>Velocidade:</b>{{speed}}</li>
-                <li class="list-group-item"><b>Defesa:</b> {{defense}}</li>
-                <li class="list-group-item"><b>Defesa Especial:</b> {{specialDefense}}</li>
-                <li class="list-group-item"><b>Ataque:</b>{{attack}}</li>
-                <li class="list-group-item"><b>Ataque Especial:</b> {{specialAttack}}</li>
-                <li class="list-group-item"><b>HP:</b> {{hp}}</li>
-                <li class="list-group-item"><h3>Pokemon:</h3> <img :src="image.front_default" :alt="pokeDados.name" :title="pokeDados.name" class="img-pok img" /></li>
-            </ul> 
+        <div class="content tb">
+            <h3 >Dados do Pokemon</h3>            
+            <table class="table table-responsive ">           
+                <tr>
+                    <td><b>Nome:</b> {{pokeDados.name}}</td>
+                    <td rowspan="9" class="td-pok"><h3>Pokemon:</h3><img :src="image.front_default" :alt="pokeDados.name" :title="pokeDados.name" /></td>
+                </tr>
+                <tr><td><b>Altura:</b> {{pokeDados.height}}</td></tr>            
+                <tr><td><b>Peso:</b> {{pokeDados.weight}}</td></tr>
+                <tr><td><b>Velocidade:</b>{{speed}}</td></tr>
+                <tr><td><b>Defesa:</b> {{defense}}</td></tr>
+                <tr><td><b>Defesa Especial:</b> {{specialDefense}}</td></tr>
+                <tr><td><b>Ataque:</b>{{attack}}</td></tr>
+                <tr><td><b>Ataque Especial:</b> {{specialAttack}}</td></tr>
+                <tr><td><b>HP:</b> {{hp}}</td></tr>
+                <tr></tr>            
+            </table>           
         </div>
     </div>
 </template>
@@ -80,17 +83,9 @@ export default {
 </script>
 
 <style>
-   
-
-.img-pok{
-    width: 200px;
-}
-.content{
-    width: 70%;
-    margin: 0 auto;
-    font-size: 1.2em;
-}
-.opt{
-    font-size: 1.2em;
-}
+    .td-pok{text-align: center;}
+    .td-pok img{width: 200px;}
+    .content{width: 70%; margin: 0 auto;font-size: 1.2em;padding: 10px;}
+    .opt{font-size: 1.2em;}
+    .btn{border: 0;}
 </style>
