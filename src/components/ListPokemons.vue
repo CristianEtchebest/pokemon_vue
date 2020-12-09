@@ -10,7 +10,7 @@
                         </select>
                     </div>
                     <div class="col-sm-4">
-                        <button class="btn btn-primary" type="submit" v-on:click.prevent="addDados">Ver daddos</button>
+                        <button class="btn btn-primary" type="submit" v-on:click.prevent="addDados">Visualizar dados</button>
                     </div> 
                 </div>                
         </form>
