@@ -17,7 +17,7 @@
                 <p><b>HP:</b> {{hp.base_stat}}</p> 
             </div>
             <div class="img-pok">
-                <h3>Imagem Pokemon</h3>
+                <h3>Imagem Pokemon</h3>             
                 <img :src="image.front_default" :alt="pokeDados.name" :title="pokeDados.name" />                    
             </div>          
         </div>
@@ -56,7 +56,7 @@ export default {
                 this.specialDefense=response.data.stats[4].base_stat,
                 this.speed=response.data.stats[5].base_stat,
                 //exibe imagem
-                this.image=response.data.sprites,
+                this.image=response.data.sprites.versions['generation-v']['black-white']['animated']
 
             ]});           
         }
@@ -87,12 +87,13 @@ body{
 .img-pok{
     width: 50%;
     float: right;
+    text-align: center;
 }
 .img-pok img{
-    width: 200px;
+    width: 100px;    
 }
 @media only screen and (max-width: 920px){
-transition: all 0.3s;
+
     .img-pok{
         width: 100%;
         text-align: center;
